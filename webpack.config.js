@@ -1,4 +1,5 @@
 //const path = require('path');
+//var webpack = require("webpack");
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({template: './src/index.html', filename: 'index.html', inject: 'body'});
@@ -28,5 +29,9 @@ module.exports = {
     ]
   },
 
-  plugins: [HtmlWebpackPluginConfig, ExtractTextPluginConfig]
-}
+  plugins: [
+    HtmlWebpackPluginConfig,
+    ExtractTextPluginConfig,
+    //new webpack.ProvidePlugin({$: "jquery", jQuery: "jquery"})
+  ]
+};
