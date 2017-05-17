@@ -20,9 +20,9 @@ export default class Expression extends React.Component {
 				{this.props.data.operator}{" "}
 				{this.props.data.num2}{" "}
         ={" "}
-				{this.props.data.answer}<br/>
+				{this.props.answer}<br/>
         <div style={this.wrongStyle}>
-          {this.props.data.message}
+          {this.props.message}
         </div>
       </div>
     );

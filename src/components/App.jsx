@@ -12,39 +12,56 @@ export default class App extends React.Component {
       textAlign: "center",
       paddingTop: "100px"
     };
-    var config = {
-      max: 20,
-      count: 10
+    this.history = null;
+    this.load();
+    this.config = {
+      max: 10,
+      count: 2,
+      time: (new Date()).toLocaleString()
     };
-    this.ExpressionList = ExpressionHelper(config);
+    this.ExpressionList = ExpressionHelper(this.config);
     this.currentIndex = 0;
     this.currentExpression = this.ExpressionList[this.currentIndex];
+    this.startTime = new Date();
+    this.currentExpression.time = this.startTime;
     this.state = {
-        currentExpression: this.currentExpression
+      currentExpression: this.currentExpression,
+      answer: "",
+      message: ""
     };
     this.numButtonClick = this.numButtonClick.bind(this);
-    this.startTime = new Date();
-    this.test();
   }
 
-  test() {
-    /*$.ajax({
+  load() {
+    $.ajax({
       dataType: "json",
       url: "https://api.myjson.com/bins/1abwbl",
-      //data: data,
+      context: this,
       success: function(data) {
+        this.history = data;
         console.log(data);
       }
-    });*/
-    $.ajax({
-        url:"https://api.myjson.com/bins/1abwbl",
-        type:"PUT",
-        data:'{"name1":"test1"}',
-        contentType:"application/json; charset=utf-8",
-        dataType:"json",
-        success: function(data, textStatus, jqXHR){
+    });
+  }
 
-        }
+  save() {
+    var data = {
+      config: this.config,
+      data: this.ExpressionList
+    };
+    if (this.history == null) {
+      this.history = [];
+    }
+    this.history.push(data);
+    console.log(this.history);
+    var jsonStr = JSON.stringify(this.history);
+    $.ajax({
+      url: "https://api.myjson.com/bins/1abwbl",
+      type: "PUT",
+      data: jsonStr,
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function() {console.log("saved");}
     });
   }
 
@@ -54,25 +71,26 @@ export default class App extends React.Component {
       return;
     }
     if (e == "C") {
-      this.currentExpression.answer = "";
-      this.setState({currentExpression: this.currentExpression});
+      this.setState({answer: ""});
       return;
     }
-    let answer = this.currentExpression.answer + e;
-    this.currentExpression.answer = answer;
-    this.setState({currentExpression: this.currentExpression});
+    let answer = this.state.answer + e;
+    this.setState({answer: answer});
   }
 
   check() {
-    if (this.currentExpression.answer == this.currentExpression.result) {
+    if (this.state.answer == this.currentExpression.result) {
       this.currentExpression.status += "correct;";
-      this.currentExpression.message = "correct";
-      this.setState({currentExpression: this.currentExpression});
+      this.currentExpression.time = this.calTime(this.currentExpression.time);
+      this.setState({message: "correct"});
       this.tryNext();
     } else {
-      this.currentExpression.status += "wrong:" + this.currentExpression.answer + ";";
-      this.currentExpression.message = "Oops, " + this.currentExpression.answer + " is wrong. Try again.";
-      this.setState({currentExpression: this.currentExpression});
+      this.currentExpression.status += this.state.answer + ";";
+      let message = "Oops, " + this.state.answer + " is wrong. Try again.";
+      this.setState({
+        answer: "",
+        message: message
+      });
     }
   }
 
@@ -80,16 +98,26 @@ export default class App extends React.Component {
     this.currentIndex++;
     this.currentExpression = this.ExpressionList[this.currentIndex];
     if (this.currentExpression) {
-      this.setState({currentExpression: this.currentExpression});
+      this.currentExpression.time = new Date();
+      this.setState({
+        currentExpression: this.currentExpression,
+        answer: "",
+        message: ""
+      });
     } else {
-      this.calTime();
+      this.setState({
+        message: "Good job!"
+      });
+      this.calTime(this.startTime);
+      this.save();
     }
   }
 
-  calTime() {
+  calTime(startTime) {
     var endTime = new Date();
-    var time = endTime - this.startTime;
-    console.log(time/1000);
+    var time = endTime - startTime;
+    //console.log(time/1000);
+    return time / 1000;
   }
 
   getNumPadData() {
@@ -127,7 +155,7 @@ export default class App extends React.Component {
     return (
       <div className="row">
         <div className="col-md-6" style={this.centerStyle}>
-          <Expression data={this.state.currentExpression}/>
+          <Expression data={this.state.currentExpression} answer={this.state.answer} message={this.state.message}/>
         </div>
         <div className="col-md-6" style={this.centerStyle}>
           <NumPad options={this.getNumPadData()} numButtonClick={this.numButtonClick}/>

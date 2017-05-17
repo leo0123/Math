@@ -11,9 +11,8 @@ export default function initExpressionList(config) {
     op = getRandomOperator(num1, num2);
     exp = {
       num1: op.num1,
-      num2: op.num2,
       operator: op.operator,
-      answer: "",
+      num2: op.num2,
       result: op.result,
       status: ""
     };
