@@ -6,8 +6,8 @@ export default function initExpressionList(config) {
   var op;
   var exp;
   while (i <= config.count) {
-    num1 = getRandomInt(0, config.max);
-    num2 = getRandomInt(0, config.max);
+    num1 = getRandomInt(1, config.max);
+    num2 = getRandomInt(1, config.max);
     op = getRandomOperator(num1, num2);
     exp = {
       num1: op.num1,

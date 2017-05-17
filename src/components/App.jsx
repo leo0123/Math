@@ -2,23 +2,50 @@ import React from "react";
 import Expression from "./Expression.jsx";
 import NumPad from "./NumPad.jsx";
 import ExpressionHelper from "./ExpressionHelper.js";
+import $ from "jquery";
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
-    this.center = {
+    this.centerStyle = {
       margin: "auto",
       textAlign: "center",
       paddingTop: "100px"
     };
     var config = {
       max: 20,
-      count: 100
+      count: 10
     };
-    var ExpressionList = ExpressionHelper(config);
-    this.currentExpression = ExpressionList[0];
-    this.state = this.currentExpression;
+    this.ExpressionList = ExpressionHelper(config);
+    this.currentIndex = 0;
+    this.currentExpression = this.ExpressionList[this.currentIndex];
+    this.state = {
+        currentExpression: this.currentExpression
+    };
     this.numButtonClick = this.numButtonClick.bind(this);
+    this.startTime = new Date();
+    this.test();
+  }
+
+  test() {
+    /*$.ajax({
+      dataType: "json",
+      url: "https://api.myjson.com/bins/1abwbl",
+      //data: data,
+      success: function(data) {
+        console.log(data);
+      }
+    });*/
+    $.ajax({
+        url:"https://api.myjson.com/bins/1abwbl",
+        type:"PUT",
+        data:'{"name1":"test1"}',
+        contentType:"application/json; charset=utf-8",
+        dataType:"json",
+        success: function(data, textStatus, jqXHR){
+
+        }
+    });
   }
 
   numButtonClick(e) {
@@ -27,24 +54,42 @@ export default class App extends React.Component {
       return;
     }
     if (e == "C") {
-      this.setState({answer: ""});
+      this.currentExpression.answer = "";
+      this.setState({currentExpression: this.currentExpression});
       return;
     }
-    let answer = this.state.answer + e;
-    this.setState({answer: answer});
+    let answer = this.currentExpression.answer + e;
+    this.currentExpression.answer = answer;
+    this.setState({currentExpression: this.currentExpression});
   }
 
   check() {
-    var status;
-    if (this.state.answer == this.state.result) {
-      status = "correct";
+    if (this.currentExpression.answer == this.currentExpression.result) {
       this.currentExpression.status += "correct;";
-      this.setState({status: status});
+      this.currentExpression.message = "correct";
+      this.setState({currentExpression: this.currentExpression});
+      this.tryNext();
     } else {
-      status = "Oops, " + this.state.answer + " is wrong. Try again.";
-      this.currentExpression.status += "wrong:" + this.state.answer + ";";
-      this.setState({status: status, answer: ""});
+      this.currentExpression.status += "wrong:" + this.currentExpression.answer + ";";
+      this.currentExpression.message = "Oops, " + this.currentExpression.answer + " is wrong. Try again.";
+      this.setState({currentExpression: this.currentExpression});
     }
+  }
+
+  tryNext() {
+    this.currentIndex++;
+    this.currentExpression = this.ExpressionList[this.currentIndex];
+    if (this.currentExpression) {
+      this.setState({currentExpression: this.currentExpression});
+    } else {
+      this.calTime();
+    }
+  }
+
+  calTime() {
+    var endTime = new Date();
+    var time = endTime - this.startTime;
+    console.log(time/1000);
   }
 
   getNumPadData() {
@@ -81,10 +126,10 @@ export default class App extends React.Component {
   render() {
     return (
       <div className="row">
-        <div className="col-md-6" style={this.center}>
-          <Expression num1={this.state.num1} num2={this.state.num2} operator={this.state.operator} answer={this.state.answer} status={this.state.status}/>
+        <div className="col-md-6" style={this.centerStyle}>
+          <Expression data={this.state.currentExpression}/>
         </div>
-        <div className="col-md-6" style={this.center}>
+        <div className="col-md-6" style={this.centerStyle}>
           <NumPad options={this.getNumPadData()} numButtonClick={this.numButtonClick}/>
         </div>
       </div>
