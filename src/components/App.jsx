@@ -39,7 +39,7 @@ export default class App extends React.Component {
       context: this,
       success: function(data) {
         this.history = data;
-        console.log(data);
+        //console.log(data);
       }
     });
   }
@@ -53,7 +53,7 @@ export default class App extends React.Component {
       this.history = [];
     }
     this.history.push(data);
-    console.log(this.history);
+    //console.log(this.history);
     var jsonStr = JSON.stringify(this.history);
     $.ajax({
       url: "https://api.myjson.com/bins/1abwbl",
@@ -80,7 +80,7 @@ export default class App extends React.Component {
 
   check() {
     if (this.state.answer == this.currentExpression.result) {
-      this.currentExpression.status += "correct;";
+      this.currentExpression.status += "correct";
       this.currentExpression.time = this.calTime(this.currentExpression.time);
       this.setState({message: "correct"});
       this.tryNext();
@@ -105,8 +105,13 @@ export default class App extends React.Component {
         message: ""
       });
     } else {
+      var list = this.ExpressionList.filter(function(exp) {
+        return exp.status == "correct";
+      });
+      console.log(list);
+      var per = list.length + "/" + this.config.count;
       this.setState({
-        message: "Good job!"
+        message: "Congratulations! You have finished " + per
       });
       this.calTime(this.startTime);
       this.save();
