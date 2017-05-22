@@ -1,0 +1,90 @@
+[
+  {
+      "num1": 17,
+      "operator": "+",
+      "num2": 1,
+      "result": 18,
+      "status": "16;wrong",
+      "time": 21.259
+  },
+  {
+      "num1": 18,
+      "operator": "-",
+      "num2": 13,
+      "result": 5,
+      "status": "31;wrong",
+      "time": 12.07
+  },
+  {
+      "num1": 15,
+      "operator": "+",
+      "num2": 18,
+      "result": 33,
+      "status": "32;wrong",
+      "time": 16.272
+  },
+  {
+      "num1": 6,
+      "operator": "+",
+      "num2": 2,
+      "result": 8,
+      "status": "4;wrong",
+      "time": 14.564
+  },
+  {
+      "num1": 14,
+      "operator": "-",
+      "num2": 13,
+      "result": 1,
+      "status": "27;11;wrong",
+      "time": 24.513
+  },
+  {
+      "num1": 19,
+      "operator": "-",
+      "num2": 6,
+      "result": 13,
+      "status": "3;wrong",
+      "time": 13.734
+  },
+  {
+      "num1": 9,
+      "operator": "+",
+      "num2": 3,
+      "result": 12,
+      "status": "6;wrong",
+      "time": 30.422
+  },
+  {
+      "num1": 12,
+      "operator": "+",
+      "num2": 9,
+      "result": 21,
+      "status": "31;wrong",
+      "time": 23.06
+  },
+  {
+      "num1": 17,
+      "operator": "-",
+      "num2": 15,
+      "result": 2,
+      "status": "32;wrong",
+      "time": 11.372
+  },
+  {
+      "num1": 16,
+      "operator": "+",
+      "num2": 15,
+      "result": 31,
+      "status": "32;wrong",
+      "time": 16.254
+  },
+  {
+      "num1": 17,
+      "operator": "+",
+      "num2": 6,
+      "result": 23,
+      "status": "11;wrong",
+      "time": 12.092
+  },
+]

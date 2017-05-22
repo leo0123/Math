@@ -12,11 +12,14 @@ export default class App extends React.Component {
       textAlign: "center",
       paddingTop: "100px"
     };
+    this.style = {
+      fontSize: 20
+    };
     this.history = null;
     this.load();
     this.config = {
-      max: 10,
-      count: 2,
+      max: 20,
+      count: 100,
       time: (new Date()).toLocaleString()
     };
     this.ExpressionList = ExpressionHelper(this.config);
@@ -27,7 +30,8 @@ export default class App extends React.Component {
     this.state = {
       currentExpression: this.currentExpression,
       answer: "",
-      message: ""
+      message: "",
+      remaining: this.currentIndex + 1 + "/" + this.config.count
     };
     this.numButtonClick = this.numButtonClick.bind(this);
   }
@@ -80,9 +84,16 @@ export default class App extends React.Component {
 
   check() {
     if (this.state.answer == this.currentExpression.result) {
-      this.currentExpression.status += "correct";
+      if (this.currentExpression.status) {
+        this.currentExpression.status += "wrong";
+      } else {
+          this.currentExpression.status += "correct";
+      }
       this.currentExpression.time = this.calTime(this.currentExpression.time);
-      this.setState({message: "correct"});
+      this.setState({
+        message: "correct",
+        remaining: this.currentIndex + 2 + "/" + this.config.count
+      });
       this.tryNext();
     } else {
       this.currentExpression.status += this.state.answer + ";";
@@ -110,10 +121,12 @@ export default class App extends React.Component {
       });
       console.log(list);
       var per = list.length + "/" + this.config.count;
+      var seconds = this.calTime(this.startTime);
+      this.config.time = seconds;
+      var minutes = seconds / 60;
       this.setState({
-        message: "Congratulations! You have finished " + per
+        message: "Congratulations! You have finished " + per + " in " + minutes.toFixed(1) + " minutes "
       });
-      this.calTime(this.startTime);
       this.save();
     }
   }
@@ -158,11 +171,14 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <div className="row">
-        <div className="col-md-6" style={this.centerStyle}>
+      <div >
+        <div className="row" style={this.centerStyle}>
+          <div style={this.style}>{this.state.remaining}</div>
+        </div>
+        <div className="row" style={this.centerStyle}>
           <Expression data={this.state.currentExpression} answer={this.state.answer} message={this.state.message}/>
         </div>
-        <div className="col-md-6" style={this.centerStyle}>
+        <div className="row" style={this.centerStyle}>
           <NumPad options={this.getNumPadData()} numButtonClick={this.numButtonClick}/>
         </div>
       </div>
