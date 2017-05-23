@@ -18,20 +18,16 @@ export default class App extends React.Component {
     this.history = null;
     this.load();
     this.config = {
-      max: 20,
-      count: 100,
-      time: (new Date()).toLocaleString()
+      max: 10,
+      count: 2,
+      date: new Date()
     };
-    this.ExpressionList = ExpressionHelper(this.config);
-    this.currentIndex = 0;
-    this.currentExpression = this.ExpressionList[this.currentIndex];
-    this.startTime = new Date();
-    this.currentExpression.time = this.startTime;
+    ExpressionHelper.initExpressionList(this.config);
     this.state = {
-      currentExpression: this.currentExpression,
+      currentExpression: ExpressionHelper.getCurrentExpression(),
       answer: "",
       message: "",
-      remaining: this.currentIndex + 1 + "/" + this.config.count
+      remaining: ExpressionHelper.getRemaining()
     };
     this.numButtonClick = this.numButtonClick.bind(this);
   }
@@ -71,25 +67,26 @@ export default class App extends React.Component {
 
   numButtonClick(e) {
     if (e == "OK") {
-      this.check();
+      //this.check();
+      this.setState(ExpressionHelper.check(this.state.answer));
       return;
     }
     if (e == "C") {
       this.setState({answer: ""});
       return;
     }
-    let answer = this.state.answer + e;
-    this.setState({answer: answer});
+    //let answer = this.state.answer + e;
+    this.setState({answer: this.state.answer + e});
   }
 
-  check() {
+  /*check() {
     if (this.state.answer == this.currentExpression.result) {
       if (this.currentExpression.status) {
         this.currentExpression.status += "wrong";
       } else {
-          this.currentExpression.status += "correct";
+          this.currentExpression.status = "correct";
       }
-      this.currentExpression.time = this.calTime(this.currentExpression.time);
+      this.currentExpression.time = this.calculateTime(this.currentExpression.time);
       this.setState({
         message: "correct",
         remaining: this.currentIndex + 2 + "/" + this.config.count
@@ -97,15 +94,14 @@ export default class App extends React.Component {
       this.tryNext();
     } else {
       this.currentExpression.status += this.state.answer + ";";
-      let message = "Oops, " + this.state.answer + " is wrong. Try again.";
       this.setState({
         answer: "",
-        message: message
+        message: "Oops, " + this.state.answer + " is wrong. Try again."
       });
     }
-  }
+  }*/
 
-  tryNext() {
+  /*tryNext() {
     this.currentIndex++;
     this.currentExpression = this.ExpressionList[this.currentIndex];
     if (this.currentExpression) {
@@ -121,7 +117,7 @@ export default class App extends React.Component {
       });
       console.log(list);
       var per = list.length + "/" + this.config.count;
-      var seconds = this.calTime(this.startTime);
+      var seconds = this.calculateTime(this.startTime);
       this.config.time = seconds;
       var minutes = seconds / 60;
       this.setState({
@@ -129,45 +125,14 @@ export default class App extends React.Component {
       });
       this.save();
     }
-  }
+  }*/
 
-  calTime(startTime) {
+  /*calculateTime(startTime) {
     var endTime = new Date();
     var time = endTime - startTime;
     //console.log(time/1000);
     return time / 1000;
-  }
-
-  getNumPadData() {
-    var rows = [
-      [
-        {}, {}, {}
-      ],
-      [
-        {}, {}, {}
-      ],
-      [
-        {}, {}, {}
-      ],
-      [
-        {
-          title: "0"
-        }, {
-          title: "OK"
-        }, {
-          title: "C"
-        }
-      ]
-    ];
-    for (let i = 0; i <= 2; i++) {
-      let row = rows[i];
-      for (let j = 0; j <= 2; j++) {
-        let obj = row[j];
-        obj.title = (6 - i * 3) + (j + 1);
-      }
-    }
-    return rows;
-  }
+  }*/
 
   render() {
     return (
@@ -179,7 +144,7 @@ export default class App extends React.Component {
           <Expression data={this.state.currentExpression} answer={this.state.answer} message={this.state.message}/>
         </div>
         <div className="row" style={this.centerStyle}>
-          <NumPad options={this.getNumPadData()} numButtonClick={this.numButtonClick}/>
+          <NumPad numButtonClick={this.numButtonClick}/>
         </div>
       </div>
     );
