@@ -10,7 +10,6 @@
   "dependencies": {
     "bootstrap": "3",
     "jquery": "^3.2.1",
-    "keypress": "^0.2.1",
     "material-ui": "^0.18.0",
     "react": "^15.5.4",
     "react-bootstrap": "^0.31.0",
