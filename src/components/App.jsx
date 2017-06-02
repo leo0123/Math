@@ -30,12 +30,27 @@ export default class App extends React.Component {
       remaining: ExpressionHelper.getRemaining()
     };
     this.numButtonClick = this.numButtonClick.bind(this);
+    window.numPress = this.numButtonClick;
+    window.onkeyup = function(e) {
+      var key = e.keyCode
+        ? e.keyCode
+        : e.which;
+
+      if (48<=key && key<=57) {
+        window.numPress(key-48);
+      } else if (96<=key && key<=105) {
+        window.numPress(key-96);
+      } else if (key == 13) {
+        window.numPress("OK");
+      } else if (key == 110) {
+        window.numPress("C");
+      }
+    };
   }
 
   load() {
     $.ajax({
-      dataType: "json",
-      url: "https://api.myjson.com/bins/1abwbl",
+      dataType: "json", url: "https://api.myjson.com/bins/1abwbl", //http://myjson.com/1abwbl
       context: this,
       success: function(data) {
         this.history = data;
@@ -61,7 +76,9 @@ export default class App extends React.Component {
       data: jsonStr,
       contentType: "application/json; charset=utf-8",
       dataType: "json",
-      success: function() {console.log("saved");}
+      success: function() {
+        console.log("saved");
+      }
     });
   }
 
@@ -76,7 +93,9 @@ export default class App extends React.Component {
       return;
     }
     //let answer = this.state.answer + e;
-    this.setState({answer: this.state.answer + e});
+    this.setState({
+      answer: this.state.answer + e
+    });
   }
 
   /*check() {
