@@ -87,4 +87,92 @@
       "status": "11;wrong",
       "time": 12.092
   },
+  {
+    "num1": 8,
+    "operator": "+",
+    "num2": 6,
+    "result": 14,
+    "status": "24;wrong",
+    "time": 17.096
+  },
+  {
+    "num1": 19,
+    "operator": "-",
+    "num2": 1,
+    "result": 18,
+    "status": "8;wrong",
+    "time": 19.343
+  },
+  {
+    "num1": 19,
+    "operator": "-",
+    "num2": 7,
+    "result": 12,
+    "status": "8;1;wrong",
+    "time": 47.13
+  },
+  {
+    "num1": 17,
+    "operator": "-",
+    "num2": 1,
+    "result": 16,
+    "status": "6;wrong",
+    "time": 16.486
+  },
+  {
+    "num1": 19,
+    "operator": "+",
+    "num2": 14,
+    "result": 33,
+    "status": "31;wrong",
+    "time": 18.799
+  },
+  {
+    "num1": 11,
+    "operator": "-",
+    "num2": 7,
+    "result": 4,
+    "status": "8;wrong",
+    "time": 15.22
+  },
+  {
+    "num1": 12,
+    "operator": "+",
+    "num2": 9,
+    "result": 21,
+    "status": "31;wrong",
+    "time": 15.87
+  },
+  {
+    "num1": 11,
+    "operator": "-",
+    "num2": 7,
+    "result": 4,
+    "status": "8;9;wrong",
+    "time": 24.809
+  },
+  {
+    "num1": 17,
+    "operator": "+",
+    "num2": 8,
+    "result": 25,
+    "status": "26;wrong",
+    "time": 28.272
+  },
+  {
+    "num1": 9,
+    "operator": "+",
+    "num2": 18,
+    "result": 27,
+    "status": "28;wrong",
+    "time": 8.809
+  },
+  {
+    "num1": 3,
+    "operator": "-",
+    "num2": 3,
+    "result": 0,
+    "status": "6;wrong",
+    "time": 12.216
+  }
 ]

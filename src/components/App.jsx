@@ -39,7 +39,7 @@ export default class App extends React.Component {
   load() {
     $.ajax({
       dataType: "json",
-      url: "https://api.myjson.com/bins/1abwbl",
+      url: "https://api.myjson.com/bins/1abwbl",//http://myjson.com/1abwbl
       context: this,
       success: function(data) {
         this.history = data;
