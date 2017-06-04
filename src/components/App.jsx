@@ -18,8 +18,8 @@ export default class App extends React.Component {
     this.history = null;
     this.load();
     this.config = {
-      max: 10,
-      count: 2,
+      max: 20,
+      count: 100,
       date: new Date()
     };
     ExpressionHelper.initExpressionList(this.config);
