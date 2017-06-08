@@ -174,5 +174,13 @@
     "result": 0,
     "status": "6;wrong",
     "time": 12.216
+  },
+  {
+    "num1": 4,
+    "operator": "+",
+    "num2": 8,
+    "result": 12,
+    "status": "22;wrong",
+    "time": 19.113
   }
 ]

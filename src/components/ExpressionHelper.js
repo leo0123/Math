@@ -1,6 +1,6 @@
 import $ from "jquery";
 
-var urlBase = "https://api.myjson.com/bins/";
+var urlBase = "https://api.myjson.com/bins/";//http://myjson.com/1abwbl
 var urlOneTest = urlBase + "eal6p";
 var urlHistory = urlBase + "1abwbl";
 var history;
