@@ -22345,8 +22345,8 @@ var App = function (_React$Component) {
     _this.history = null;
     _this.load();
     _this.config = {
-      max: 10,
-      count: 2,
+      max: 20,
+      count: 100,
       date: new Date()
     };
     _ExpressionHelper2.default.initExpressionList(_this.config);
@@ -22675,7 +22675,7 @@ var _jquery2 = _interopRequireDefault(_jquery);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var urlBase = "https://api.myjson.com/bins/";
+var urlBase = "https://api.myjson.com/bins/"; //http://myjson.com/1abwbl
 var urlOneTest = urlBase + "eal6p";
 var urlHistory = urlBase + "1abwbl";
 var history;
